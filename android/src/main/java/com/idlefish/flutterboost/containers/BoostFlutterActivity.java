@@ -3,6 +3,8 @@ package com.idlefish.flutterboost.containers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
@@ -35,7 +37,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoostFlutterActivity extends Activity
+public class BoostFlutterActivity extends AppCompatActivity
         implements FlutterActivityAndFragmentDelegate.Host,
         LifecycleOwner {
 
