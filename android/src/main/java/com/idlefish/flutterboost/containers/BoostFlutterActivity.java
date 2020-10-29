@@ -1,13 +1,10 @@
 package com.idlefish.flutterboost.containers;
 
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LifecycleRegistry;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -38,8 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoostFlutterActivity extends AppCompatActivity
-        implements FlutterActivityAndFragmentDelegate.Host,
-        LifecycleOwner {
+        implements FlutterActivityAndFragmentDelegate.Host{
 
     private static final String TAG = "NewBoostFlutterActivity";
 
@@ -129,11 +125,7 @@ public class BoostFlutterActivity extends AppCompatActivity
 
     private FlutterActivityAndFragmentDelegate delegate;
 
-    @NonNull
-    private LifecycleRegistry lifecycle;
-
     public BoostFlutterActivity() {
-        lifecycle = new LifecycleRegistry(this);
     }
 
     @Override
@@ -141,8 +133,6 @@ public class BoostFlutterActivity extends AppCompatActivity
         switchLaunchThemeForNormalTheme();
 
         super.onCreate(savedInstanceState);
-
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
 
         delegate = new FlutterActivityAndFragmentDelegate(this);
         delegate.onAttach(this);
@@ -253,14 +243,12 @@ public class BoostFlutterActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
         delegate.onStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
         delegate.onResume();
     }
 
@@ -274,7 +262,6 @@ public class BoostFlutterActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         delegate.onPause();
-        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
     }
 
     @Override
@@ -293,6 +280,7 @@ public class BoostFlutterActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         delegate.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -346,18 +334,6 @@ public class BoostFlutterActivity extends AppCompatActivity
     @NonNull
     public Activity getActivity() {
         return this;
-    }
-
-    /**
-     * {@link FlutterActivityAndFragmentDelegate.Host} method that is used by
-     * {@link FlutterActivityAndFragmentDelegate} to obtain a {@code Lifecycle} reference as
-     * needed. This reference is used by the delegate to provide Flutter plugins with access
-     * to lifecycle events.
-     */
-    @Override
-    @NonNull
-    public Lifecycle getLifecycle() {
-        return lifecycle;
     }
 
     /**
